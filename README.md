@@ -11,3 +11,6 @@ addmd5 -r ${basePath},<%=basePath%> //将这些字符串替换成为空字符串
 addmd5 -e plugins,build //忽略plugins build 文件夹下的文件
 addmd5 -f .jsp,.html,.html //指定要检查的文件后缀
 ```
+
+# License
+The MIT License
