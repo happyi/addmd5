@@ -1,9 +1,9 @@
 {
   "name": "addmd5",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "给项目下的jsp html 内引用的css js 链接增加md5值，防止浏览器缓存导致的问题。",
   "bin":{
-    "addmd5":"node ./bin/addmd5"
+    "addmd5":"./bin/addmd5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
