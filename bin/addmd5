@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+var argv = require("minimist")(process.argv.slice(2), {
+  alias: {
+    'directory': 'd',//目标目录
+    'compress': 'c',//是否压缩
+    'replace' : 'r',//需要替换的字符串，替换成空字符串
+    'exclude' : 'e',//哪些文件夹可以忽略，只要名字相同就会忽略
+    'fileext' : 'f'//默认.jsp .html .htm ，可以指定
+  },
+  string : ['replace','exclude','fileext'],
+  boolean: ['compress'],
+  'default': {
+    'directory': process.cwd()
+  }
+});
+
+var directory = argv.directory,
+	compress = argv.compress,
+	replace = argv.replace || '${basepath},<%=basepath%>',
+	exclude = argv.exclude || '',
+	ext = argv.fileext || '.jsp,.html,.htm';
+var opts = {
+	compress : compress,
+	extList : ext.split(',').map(function(item){
+		return item.startsWith('.') ? item : '.'+item;
+	}),
+	exclude : exclude.split(','),
+	replace : replace.split(',')
+};
+
+var AddMd5 = require('../addmd5');
+
+var ins = new AddMd5(directory,opts);
+ins.start();
