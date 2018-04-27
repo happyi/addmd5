@@ -65,10 +65,9 @@ AddMd5.prototype.scan = function(filePath,callback){
 		var rst = thiz.checkLine(line);
 		if(rst){//检查到有内容
 			//处理并替换
-			var type = rst.type;
 			var md5 = rst.md5;
 			//检索并替换
-			var arr = /src[\s]*=[\s]*[\"\']?([^\'\"]*)[\'\"]?/i.exec(line);
+			var arr = /[src|href][\s]*=[\s]*[\"\']?([^\'\"]*)[\'\"]?/i.exec(line);
 			if(arr && arr.length > 0){
 				var src = arr[1];
 				var query = url.parse(src).query;
