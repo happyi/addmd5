@@ -81,14 +81,13 @@ AddMd5.prototype.scan = function(filePath,callback){
 				thiz.count ++ ;
 			}
 		}
-		strArr+=line+(compress ? '' : '\n');
+		//strArr+=line+(compress ? '' : '\n');
+		strArr+=line;
 	});
 	inter.on('close',function(){
 		//重新写入
-		if(strArr!=='' || strArr!=null)
-		{
-		    fs.writeFileSync(filePath,strArr);	
-		}
+		fs.writeFileSync(filePath,strArr);	
+		
 		callback(null,null);
 	})
 };
