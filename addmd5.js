@@ -85,7 +85,10 @@ AddMd5.prototype.scan = function(filePath,callback){
 	});
 	inter.on('close',function(){
 		//重新写入
-		fs.writeFileSync(filePath,strArr);
+		if(strArr!=='' || strArr!=null)
+		{
+		    fs.writeFileSync(filePath,strArr);	
+		}
 		callback(null,null);
 	})
 };
