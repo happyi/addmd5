@@ -84,8 +84,8 @@ AddMd5.prototype.scan = function(filePath,callback){
 				thiz.count ++ ;
 			}
 		}
-		//strArr+=line+(compress ? '' : '\n');
-		strArr+=line;
+		strArr+=line+(compress ? '' : '\n');
+		
 	});
 	inter.on('close',function(){
 		//重新写入
