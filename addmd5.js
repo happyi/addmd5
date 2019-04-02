@@ -104,15 +104,15 @@ AddMd5.prototype.getMd5 = function(filePath){
 AddMd5.prototype.checkLine = function(str){
 	//检查字符串是否符合 link script 
 	var thiz = this,replace = thiz.replace,directory = thiz.directory;
-	str = str.toLowerCase().replace(/\s/g,'');
-	var rst = /\<script[\s\S]*src="([\$\{\}\w\.\/\<\%\=\>\?\&]*)"[\s\S]*\>[\s\S]*\<\/script\>/g.exec(str);
+	str = str.toLowerCase();
+	 var rst = /<script .*?src=\"(.+?)\"/g.exec(str);
 	var src = '';
 	var type = '';
 	if(rst && rst.length > 0){
 		src = rst[1];
 		type = 'src';
 	}
-	rst = /^\<link[\s\S]*href="([\$\{\}\w\.\/\<\%\=\>\?\&]*)"[\s\S]*[\>|\/\>|\<\/link\>]$/g.exec(str);
+	rst = /<link .*?href=\"(.+?)\"/g.exec(str);
 	if(rst && rst.length > 0 && rst[1].indexOf('favicon') < 0){
 		src = rst[1];
 		type = 'href';
