@@ -61,9 +61,12 @@ AddMd5.prototype.scan = function(filePath,callback){
 	var is = fs.createReadStream(filePath);
 	var inter = readline.createInterface({input :is});
 	var strArr = '';
+	var needWrite = false;
 	inter.on('line',function(line){
 		var rst = thiz.checkLine(line);
-		if(rst){//检查到有内容
+		if(rst){
+			needWrite = true;
+			//检查到有内容
 			//处理并替换
 			var md5 = rst.md5;
 			//检索并替换
@@ -82,10 +85,12 @@ AddMd5.prototype.scan = function(filePath,callback){
 			}
 		}
 		strArr+=line+(compress ? '' : '\n');
+		
 	});
 	inter.on('close',function(){
 		//重新写入
-		fs.writeFileSync(filePath,strArr);
+		if(needWrite) fs.writeFileSync(filePath,strArr);	
+		
 		callback(null,null);
 	})
 };
@@ -99,15 +104,15 @@ AddMd5.prototype.getMd5 = function(filePath){
 AddMd5.prototype.checkLine = function(str){
 	//检查字符串是否符合 link script 
 	var thiz = this,replace = thiz.replace,directory = thiz.directory;
-	str = str.toLowerCase().replace(/\s/g,'');
-	var rst = /\<script[\s\S]*src="([\$\{\}\w\.\/\<\%\=\>\?\&]*)"[\s\S]*\>[\s\S]*\<\/script\>/g.exec(str);
+	str = str.toLowerCase();
+	var rst = /<script .*?src=\"(.+?)\"/g.exec(str);
 	var src = '';
 	var type = '';
 	if(rst && rst.length > 0){
 		src = rst[1];
 		type = 'src';
 	}
-	rst = /^\<link[\s\S]*href="([\$\{\}\w\.\/\<\%\=\>\?\&]*)"[\s\S]*[\>|\/\>|\<\/link\>]$/g.exec(str);
+	rst = /<link .*?href=\"(.+?)\"/g.exec(str);
 	if(rst && rst.length > 0 && rst[1].indexOf('favicon') < 0){
 		src = rst[1];
 		type = 'href';
@@ -121,6 +126,7 @@ AddMd5.prototype.checkLine = function(str){
 		var srcObj = url.parse(src);
 		var query = srcObj.query;
 		var filePath = join(directory,srcObj.pathname);
+	
 		if(fs.existsSync(filePath)){
 			var fileMd5 = thiz.getMd5(filePath);
 			return {
