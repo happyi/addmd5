@@ -61,9 +61,12 @@ AddMd5.prototype.scan = function(filePath,callback){
 	var is = fs.createReadStream(filePath);
 	var inter = readline.createInterface({input :is});
 	var strArr = '';
+	var needWrite = false;
 	inter.on('line',function(line){
 		var rst = thiz.checkLine(line);
-		if(rst){//检查到有内容
+		if(rst){
+			needWrite = true;
+			//检查到有内容
 			//处理并替换
 			var md5 = rst.md5;
 			//检索并替换
@@ -86,7 +89,7 @@ AddMd5.prototype.scan = function(filePath,callback){
 	});
 	inter.on('close',function(){
 		//重新写入
-		fs.writeFileSync(filePath,strArr);	
+		if(needWrite) fs.writeFileSync(filePath,strArr);	
 		
 		callback(null,null);
 	})
