@@ -105,7 +105,7 @@ AddMd5.prototype.checkLine = function(str){
 	//检查字符串是否符合 link script 
 	var thiz = this,replace = thiz.replace,directory = thiz.directory;
 	str = str.toLowerCase();
-	 var rst = /<script .*?src=\"(.+?)\"/g.exec(str);
+	var rst = /<script .*?src=\"(.+?)\"/g.exec(str);
 	var src = '';
 	var type = '';
 	if(rst && rst.length > 0){
@@ -126,6 +126,7 @@ AddMd5.prototype.checkLine = function(str){
 		var srcObj = url.parse(src);
 		var query = srcObj.query;
 		var filePath = join(directory,srcObj.pathname);
+	
 		if(fs.existsSync(filePath)){
 			var fileMd5 = thiz.getMd5(filePath);
 			return {
