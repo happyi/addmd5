@@ -3,7 +3,7 @@
 
 # usage
 ```
-npm install addmd5 -g
+npm install https://github.com/happyi/addmd5.git -g
 addmd5 //给当前目录下的所有的jsp 和 html内引用的css js 增加md5值，防止缓存
 addmd5 -d /home/source //给/home/source 目标目录下增加
 addmd5 -c //增加的同时，压缩内容，去掉换行。
